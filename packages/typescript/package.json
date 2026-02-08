@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@rogwilco/defaults-typescript",
+  "name": "@nickawilliams/defaults-typescript",
   "version": "0.2.0",
   "description": "default typescript configurations",
   "keywords": [

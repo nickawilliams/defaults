@@ -9,7 +9,7 @@ const configTemplate =
   `
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@rogwilco/defaults-typescript/base"
+  "extends": "@nickawilliams/defaults-typescript/base"
 }
 `.trim() + '\n'
 
