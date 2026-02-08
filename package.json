@@ -13,9 +13,9 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@rogwilco/defaults-eslint": "^0.0.3",
-    "@rogwilco/defaults-prettier": "^0.0.0",
-    "@rogwilco/defaults-typescript": "^0.0.0",
+    "@rogwilco/defaults-eslint": "^0.1.0",
+    "@rogwilco/defaults-prettier": "^0.1.0",
+    "@rogwilco/defaults-typescript": "^0.2.0",
     "@types/bun": "^1.2.2",
     "eslint": "^9.20.1",
     "prettier": "^3.5.0",
