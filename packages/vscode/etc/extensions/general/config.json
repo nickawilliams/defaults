@@ -19,10 +19,13 @@
     ]
   },
   "extensions": [
+    "1password.op-vscode",
     "amazonwebservices.amazon-q-vscode",
     "amazonwebservices.aws-toolkit-vscode",
+    "anthropic.claude-code",
     "atlassian.atlascode",
     "christian-kohler.path-intellisense",
+    "coderabbit.coderabbit-vscode",
     "deerawan.vscode-dash",
     "eamodio.gitlens",
     "editorconfig.editorconfig",
@@ -35,6 +38,7 @@
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "ms-vscode-remote.remote-containers",
     "ms-vscode.live-server",
+    "openai.chatgpt",
     "ryanluker.vscode-coverage-gutters",
     "shinotatwu-ds.file-tree-generator",
     "spmeesseman.vscode-taskexplorer",
