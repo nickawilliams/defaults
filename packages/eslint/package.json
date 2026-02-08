@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@rogwilco/defaults-eslint",
+  "name": "@nickawilliams/defaults-eslint",
   "version": "0.1.1",
   "description": "default eslint configurations",
   "keywords": [
