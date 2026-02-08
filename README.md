@@ -1,4 +1,4 @@
-# @rogwilco/defaults
+# @nickawilliams/defaults
 
 A collection of shared configuration defaults for common development tools.
 
@@ -8,9 +8,9 @@ This monorepo contains a set of opinionated configuration defaults for various d
 
 ## Packages
 
-- `@rogwilco/defaults-eslint` - ESLint configuration presets
-- `@rogwilco/defaults-prettier` - Prettier formatting configuration
-- `@rogwilco/defaults-typescript` - TypeScript configuration defaults
+- `@nickawilliams/defaults-eslint` - ESLint configuration presets
+- `@nickawilliams/defaults-prettier` - Prettier formatting configuration
+- `@nickawilliams/defaults-typescript` - TypeScript configuration defaults
 
 ### VS Code Extension Packs
 

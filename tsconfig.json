@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "extends": [
-    "@rogwilco/defaults-typescript/base",
-    "@rogwilco/defaults-typescript/bun-package"
+    "@nickawilliams/defaults-typescript/base",
+    "@nickawilliams/defaults-typescript/bun-package"
   ],
   "exclude": [
     "**/dist"

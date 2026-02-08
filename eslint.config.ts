@@ -1,4 +1,4 @@
-import config from '@rogwilco/defaults-eslint'
+import config from '@nickawilliams/defaults-eslint'
 import type { Linter } from 'eslint'
 
 export default [

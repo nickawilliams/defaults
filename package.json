@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@rogwilco/defaults",
+  "name": "@nickawilliams/defaults",
   "version": "0.0.0",
   "description": "defaults",
   "keywords": [
@@ -13,9 +13,9 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@rogwilco/defaults-eslint": "^0.1.0",
-    "@rogwilco/defaults-prettier": "^0.1.0",
-    "@rogwilco/defaults-typescript": "^0.2.0",
+    "@nickawilliams/defaults-eslint": "^0.1.0",
+    "@nickawilliams/defaults-prettier": "^0.1.0",
+    "@nickawilliams/defaults-typescript": "^0.2.0",
     "@types/bun": "^1.2.2",
     "eslint": "^9.20.1",
     "prettier": "^3.5.0",
