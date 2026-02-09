@@ -1,0 +1,141 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+env:
+  GIT_CLIFF_VERSION: '2.10.1'
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    if: ${{ !startsWith(github.event.head_commit.message, 'release:') }}
+    uses: ./.github/workflows/verify.yaml
+
+  generate:
+    needs: verify
+    runs-on: ubuntu-latest
+    outputs:
+      has_releases: ${{ steps.metadata.outputs.has_releases }}
+      release_tags: ${{ steps.metadata.outputs.release_tags }}
+      release_json: ${{ steps.metadata.outputs.release_json }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Install git-cliff
+        uses: actions/cache@v4
+        id: cliff-cache
+        with:
+          path: /usr/local/bin/git-cliff
+          key: git-cliff-${{ env.GIT_CLIFF_VERSION }}-${{ runner.os }}
+      - name: Download git-cliff
+        if: steps.cliff-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sSfL "https://github.com/orhun/git-cliff/releases/download/v${GIT_CLIFF_VERSION}/git-cliff-${GIT_CLIFF_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar xz -C /tmp
+          sudo mv "/tmp/git-cliff-${GIT_CLIFF_VERSION}/git-cliff" /usr/local/bin/git-cliff
+      - name: Dependencies
+        run: make deps
+      - name: Release Metadata
+        id: metadata
+        run: make release/github_actions
+
+  tag:
+    needs: generate
+    if: needs.generate.outputs.has_releases == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      release_tags: ${{ needs.generate.outputs.release_tags }}
+      release_json: ${{ needs.generate.outputs.release_json }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Install git-cliff
+        uses: actions/cache@v4
+        id: cliff-cache
+        with:
+          path: /usr/local/bin/git-cliff
+          key: git-cliff-${{ env.GIT_CLIFF_VERSION }}-${{ runner.os }}
+      - name: Download git-cliff
+        if: steps.cliff-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sSfL "https://github.com/orhun/git-cliff/releases/download/v${GIT_CLIFF_VERSION}/git-cliff-${GIT_CLIFF_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar xz -C /tmp
+          sudo mv "/tmp/git-cliff-${GIT_CLIFF_VERSION}/git-cliff" /usr/local/bin/git-cliff
+      - name: Dependencies
+        run: make deps
+      - name: Import GPG
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - name: Configure Git
+        run: |
+          git config commit.gpgsign true
+          git config tag.gpgsign true
+          git config user.signingkey "${{ steps.import_gpg.outputs.keyid }}"
+          git config user.name "${{ vars.GIT_USER_NAME }}"
+          git config user.email "${{ vars.GIT_USER_EMAIL }}"
+      - name: Release
+        run: make release
+      - name: Push
+        run: git push origin HEAD:main --tags
+
+  github-release:
+    needs: tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{ fromJSON(needs.tag.outputs.release_json) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          ref: ${{ matrix.tag }}
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Install git-cliff
+        uses: actions/cache@v4
+        id: cliff-cache
+        with:
+          path: /usr/local/bin/git-cliff
+          key: git-cliff-${{ env.GIT_CLIFF_VERSION }}-${{ runner.os }}
+      - name: Download git-cliff
+        if: steps.cliff-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sSfL "https://github.com/orhun/git-cliff/releases/download/v${GIT_CLIFF_VERSION}/git-cliff-${GIT_CLIFF_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar xz -C /tmp
+          sudo mv "/tmp/git-cliff-${GIT_CLIFF_VERSION}/git-cliff" /usr/local/bin/git-cliff
+      - name: Generate Release Notes
+        id: notes
+        run: |
+          notes=$(make --no-print-directory releasenotes/${{ matrix.package }})
+          {
+            echo "body<<RELEASE_NOTES_EOF"
+            echo "$notes"
+            echo "RELEASE_NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ matrix.tag }}" \
+            --title "${{ matrix.tag }}" \
+            --notes "${{ steps.notes.outputs.body }}"
