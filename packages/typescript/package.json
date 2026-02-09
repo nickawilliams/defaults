@@ -7,6 +7,7 @@
     "typescript",
     "defaults"
   ],
+  "repository": "github:nickawilliams/defaults/packages/typescript",
   "license": "BSD-2-Clause",
   "author": "Nick Williams <git@nickawilliams.com>",
   "type": "module",
