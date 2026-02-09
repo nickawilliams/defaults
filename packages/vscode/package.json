@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@rogwilco/defaults-vscode",
-  "version": "0.1.0-rc.1",
+  "version": "0.3.0",
   "description": "Collect them all",
   "repository": "github:rogwilco/defaults/packages/vscode",
   "license": "BSD-2-Clause",
