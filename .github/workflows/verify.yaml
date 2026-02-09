@@ -1,0 +1,56 @@
+name: Verify
+
+on:
+  pull_request:
+    branches: [main]
+
+  workflow_call:
+
+env:
+  GIT_CLIFF_VERSION: '2.10.1'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Dependencies
+        run: make deps
+      - name: Lint
+        run: make lint
+      - name: Format Check
+        run: make format/check
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Dependencies
+        run: make deps
+      - name: Build
+        run: make build
+
+  verify:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [eslint, prettier, typescript, vscode]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Dependencies
+        run: make deps
+      - name: Build
+        run: make build/${{ matrix.package }}
+      - name: Verify
+        run: make verify/${{ matrix.package }}

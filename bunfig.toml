@@ -2,4 +2,4 @@
 bun = true
 
 [install.scopes]
-rogwilco = { url = "https://registry.npmjs.org/", token = "${NPM_TOKEN}" }
+nickawilliams = { url = "https://registry.npmjs.org/", token = "${NPM_TOKEN}" }

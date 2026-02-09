@@ -1,0 +1,65 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag to publish (e.g. eslint/v0.2.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve Tag
+        id: release
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ inputs.release_tag }}" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Validate Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${{ steps.release.outputs.tag }}"
+          if ! gh release view "${tag}" --json tagName >/dev/null 2>&1; then
+            echo "::error::Release ${tag} not found. Please specify an existing release tag."
+            exit 1
+          fi
+          echo "Validated release: ${tag}"
+      - name: Extract Package
+        id: extract
+        run: |
+          tag="${{ steps.release.outputs.tag }}"
+          pkg="${tag%%/*}"
+          echo "package=${pkg}" >> "$GITHUB_OUTPUT"
+          echo "Publishing package: ${pkg} (tag: ${tag})"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.release.outputs.tag }}
+      - name: Environment
+        uses: oven-sh/setup-bun@v2
+      - name: Dependencies
+        run: make deps
+      - name: Build
+        run: make build/${{ steps.extract.outputs.package }}
+      - name: Publish NPM
+        if: steps.extract.outputs.package != 'vscode'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: make publish/${{ steps.extract.outputs.package }}
+      - name: Publish VS Code Extensions
+        if: steps.extract.outputs.package == 'vscode'
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: make publish/vscode

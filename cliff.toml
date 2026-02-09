@@ -1,0 +1,107 @@
+# git-cliff ~ configuration file
+# https://git-cliff.org/docs/configuration
+#
+# Per-package scoping is handled via CLI flags:
+#   --include-path "packages/<pkg>/**"
+#   --tag-pattern "<pkg>/v[0-9].*"
+
+[changelog]
+header = """
+# Changelog
+"""
+body = """
+{%- macro title(current, previous, unreleased, timestamp) -%}
+  {%- set from = previous | default(value="v0.0.0") -%}
+  {%- set to = current | default(value="HEAD") -%}
+  {%- set label = current | default(value=unreleased) -%}
+  [{{ label }}]({{ self::remote_url() }}/compare/{{ from }}...{{ to }}){% if current %} - {{ timestamp | date(format="%Y-%m-%d") }}{% endif %}
+{%- endmacro -%}
+
+{%- macro group(name, commits) -%}
+### {{ name }}
+
+{% set scoped = commits | filter(attribute="scope") | sort(attribute="scope") | group_by(attribute="scope") -%}
+{% for commit in commits -%}
+{% if not commit.scope -%}
+- {{ self::print_commit_body(commit=commit) }}
+{% endif -%}
+{% endfor -%}
+{% for scope, scope_commits in scoped -%}
+{% if scope_commits | length == 1 -%}
+- **{{ scope | upper_first }}:** {{ self::print_commit_body(commit=scope_commits | first) }}
+{% else -%}
+- **{{ scope | upper_first }}**
+{% for commit in scope_commits %}
+{{ "  " }}- {{ self::print_commit_body(commit=commit) }}
+{%- endfor %}
+{% endif -%}
+{% endfor -%}
+{% endmacro -%}
+
+{%- macro print_commit_body(commit) -%}
+{{ commit.message | split(pat="\n") | first | trim | upper_first }} - ({{ self::commit_meta(commit=commit) }})
+{%- endmacro -%}
+
+{%- macro print_commit(commit) -%}
+{%- if commit.scope -%}**{{ commit.scope | upper_first }}:** {% endif -%}
+{{ commit.message | split(pat="\n") | first | trim | upper_first}} - ({{ self::commit_meta(commit=commit) }})
+{%- endmacro -%}
+
+{%- macro commit_meta(commit) -%}
+  {%- if commit.remote.pr_number -%}
+    [#{{ commit.remote.pr_number }}]({{ self::remote_url() }}/pull/{{ commit.remote.pr_number }}), \
+  {%- endif -%}
+
+  [{{ commit.id | truncate(length=7, end="") }}]({{ self::remote_url() }}/commit/{{ commit.id }})
+{%- endmacro -%}
+
+{%- macro remote_url() -%}
+  https://github.com/{{ remote.github.owner }}/{{ remote.github.repo }}
+{%- endmacro -%}
+
+## {{ self::title(current=version, previous=commit_range.from, unreleased="Unreleased", timestamp=timestamp) }}
+
+{% set grouped = commits | group_by(attribute="group") -%}
+{%- set preferred = ["New Features", "Improvements", "Fixes"] -%}
+
+{%- for name in preferred -%}
+  {%- for group, group_commits in grouped -%}
+    {%- if group == name -%}
+      {{ self::group(name=name, commits=group_commits) }}
+    {% endif -%}
+  {% endfor -%}
+{% endfor -%}
+
+{%- for group, group_commits in grouped -%}
+  {%- set_global is_pref = false -%}
+  {%- for name in preferred -%}
+    {%- if name == group -%}
+      {% set_global is_pref = true -%}
+    {% endif -%}
+  {% endfor -%}
+  {%- if is_pref == false -%}
+    {{ self::group(name=group, commits=group_commits) }}
+  {% endif -%}
+{% endfor -%}
+"""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+require_conventional = true
+split_commits = false
+commit_parsers = [
+  { message = "^feat", group = "New Features" },
+  { message = "^refactor", group = "Improvements" },
+  { message = "^perf", group = "Improvements" },
+  { message = "^fix", group = "Fixes" },
+  { message = "^docs", group = "Documentation" },
+  { message = "^chore", group = "Miscellaneous" },
+]
+protect_breaking_commits = true
+filter_commits = true
+
+[remote.github]
+owner = "nickawilliams"
+repo = "defaults"
