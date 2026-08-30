@@ -7,6 +7,7 @@ export default defineConfig({
   minify: false,
   sourcemap: true,
   clean: true,
-  splitting: false,
+  splitting: true,
+  cjsInterop: true,
   shims: true,
 })
