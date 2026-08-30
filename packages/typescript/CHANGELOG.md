@@ -1,4 +1,28 @@
 # Changelog
+## [typescript/v0.5.0](https://github.com/nickawilliams/defaults/compare/b60ce9171467e8f9b788b0616ec04852a3bdacf4...typescript/v0.5.0) - 2026-08-30
+
+### New Features
+
+- **Typescript**
+
+  - Widen typescript peer dependency to 6.x and 7.x - ([b60ce91](https://github.com/nickawilliams/defaults/commit/b60ce9171467e8f9b788b0616ec04852a3bdacf4))
+  - Add node config with explicit node types - ([a227f58](https://github.com/nickawilliams/defaults/commit/a227f585c9cfa868024311585378ec22fa8ade5e))
+
+### Improvements
+
+- **Typescript:** Drop strict-subsumed options from base config - ([d8e833c](https://github.com/nickawilliams/defaults/commit/d8e833ca64260d5161f32d0e1126344bf1d72016))
+
+### Documentation
+
+- **Typescript**
+
+  - Document the TS 6+ empty types default in base config - ([9d6f588](https://github.com/nickawilliams/defaults/commit/9d6f58868149ec695f05139a28191e2a9d27d642))
+  - Note explicit rootDir requirement for emit on TS 6+ - ([0f40285](https://github.com/nickawilliams/defaults/commit/0f402859a65612b34f108febef4b9a9314c18d89))
+
+### Miscellaneous
+
+- **Typescript:** Fix comment typos in config headers - ([75fd288](https://github.com/nickawilliams/defaults/commit/75fd288096b9126b7c1c24e3228d10686bb00693))
+
 ## [typescript/v0.4.0](https://github.com/nickawilliams/defaults/compare/7b2af34a87bd882b4b9d2c0d218ef72642ec945b...typescript/v0.4.0) - 2026-02-09
 
 ### New Features
