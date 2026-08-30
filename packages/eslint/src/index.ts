@@ -1,9 +1,10 @@
 import js from '@eslint/js'
 import type { Linter } from 'eslint'
 import prettier from 'eslint-config-prettier'
+import { defineConfig } from 'eslint/config'
 import ts from 'typescript-eslint'
 
-export default ts.config(
+export default defineConfig(
   js.configs.recommended,
   ts.configs.recommendedTypeChecked,
   prettier,
@@ -11,7 +12,6 @@ export default ts.config(
     languageOptions: {
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: __dirname,
       },
     },
     rules: {
@@ -39,7 +39,6 @@ export default ts.config(
       ],
       '@typescript-eslint/no-useless-constructor': 'error',
       '@typescript-eslint/return-await': 'error',
-      'eol-last': ['error', 'always'],
     },
   },
   {

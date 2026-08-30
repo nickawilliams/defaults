@@ -19,7 +19,7 @@
     },
     "require": {
       "types": "./dist/index.d.cts",
-      "import": "./dist/index.cjs"
+      "default": "./dist/index.cjs"
     }
   },
   "types": "./dist/index.d.ts",
@@ -39,19 +39,19 @@
     "watch": "tsup --watch"
   },
   "dependencies": {
-    "@types/eslint-config-prettier": "^6.11.3",
-    "eslint-config-prettier": "^10.0.1",
-    "jiti": "^2.4.2",
-    "typescript-eslint": "^8.24.0"
+    "eslint-config-prettier": "^10.1.8",
+    "jiti": "^2.7.0",
+    "typescript-eslint": "^8.68.0"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.17.3",
-    "@types/bun": "^1.2.2",
-    "tsup": "^8.3.6",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@types/bun": "^1.4.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.7.3"
   },
   "peerDependencies": {
-    "eslint": "^9.20.1"
+    "@eslint/js": "^9.35.0 || ^10.0.1",
+    "eslint": "^9.35.0 || ^10.0.0"
   },
   "engines": {
     "bun": ">=1.2.0"

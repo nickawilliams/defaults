@@ -164,9 +164,21 @@ Framework rules are appended _after_ the spread — `SuperAgent/console`
 adds `eslint-plugin-react-hooks` and `eslint-plugin-react-refresh` this
 way.
 
-`defaults-eslint` ships `typescript-eslint` and `eslint-config-prettier`
-as real dependencies. A consumer should not redeclare them unless its
-own config file imports them directly.
+`defaults-eslint` ships `typescript-eslint`, `eslint-config-prettier`,
+and `jiti` as real dependencies. A consumer should not redeclare them
+unless its own config file imports them directly. `@eslint/js` is a
+peer instead — npm 7+, bun, and pnpm 8+ auto-install it, and peer
+placement is what lets the installer pick the copy that matches the
+consumer's eslint major.
+
+### TypeScript ceiling for type-checked linting
+
+`typescript-eslint`'s peer range is `typescript >=4.8.4 <6.1.0`,
+because TypeScript 7 (tsgo) exposes no programmatic API until 7.1,
+expected autumn 2026. Type-checked linting therefore requires
+TypeScript ≤ 6.0. Consumers on tsgo can install Microsoft's
+`@typescript/typescript6` alias side by side to keep linting on 6.x.
+Revisit once `typescript-eslint` supports TS 7.
 
 ### Organize-imports needs a JS-based TypeScript
 
