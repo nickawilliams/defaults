@@ -1,4 +1,10 @@
 # Changelog
+## [prettier/v0.4.1](https://github.com/nickawilliams/defaults/compare/d5090a8aa5e52f0a116df19e8fff6023f351a133...prettier/v0.4.1) - 2026-08-30
+
+### Fixes
+
+- **Prettier:** Use the directory form for repository metadata - ([d5090a8](https://github.com/nickawilliams/defaults/commit/d5090a8aa5e52f0a116df19e8fff6023f351a133))
+
 ## [prettier/v0.4.0](https://github.com/nickawilliams/defaults/compare/e4d641e41186474781b6bfa09188d8b5eb01bc9d...prettier/v0.4.0) - 2026-08-30
 
 ### New Features
