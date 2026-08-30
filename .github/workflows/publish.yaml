@@ -70,7 +70,11 @@ jobs:
         run: make build/${{ steps.extract.outputs.package }}
       - name: Publish NPM
         if: steps.extract.outputs.package != 'vscode'
-        run: make publish/${{ steps.extract.outputs.package }}
+        # Inline rather than make publish/<pkg>: the checkout is the
+        # release tag, whose Makefile may predate the npm/OIDC switch,
+        # and trusted publishing only works from this workflow anyway.
+        working-directory: packages/${{ steps.extract.outputs.package }}
+        run: npm publish
       - name: Publish VS Code Extensions
         if: steps.extract.outputs.package == 'vscode'
         env:
