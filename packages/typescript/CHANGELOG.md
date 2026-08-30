@@ -1,4 +1,10 @@
 # Changelog
+## [typescript/v0.5.1](https://github.com/nickawilliams/defaults/compare/9835ddfbba9b6ed25a1008db3dc1a43224fa886c...typescript/v0.5.1) - 2026-08-30
+
+### Fixes
+
+- **Typescript:** Use the directory form for repository metadata - ([9835ddf](https://github.com/nickawilliams/defaults/commit/9835ddfbba9b6ed25a1008db3dc1a43224fa886c))
+
 ## [typescript/v0.5.0](https://github.com/nickawilliams/defaults/compare/b60ce9171467e8f9b788b0616ec04852a3bdacf4...typescript/v0.5.0) - 2026-08-30
 
 ### New Features
