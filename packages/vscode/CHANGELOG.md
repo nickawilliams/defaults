@@ -1,4 +1,10 @@
 # Changelog
+## [vscode/v0.5.0](https://github.com/nickawilliams/defaults/compare/a0c9d6a2d91f548457fc73b772c13bac26f88c92...vscode/v0.5.0) - 2026-08-30
+
+### New Features
+
+- **Vscode:** Migrate marketplace publisher to nickawilliams - ([a0c9d6a](https://github.com/nickawilliams/defaults/commit/a0c9d6a2d91f548457fc73b772c13bac26f88c92))
+
 ## [vscode/v0.4.0](https://github.com/nickawilliams/defaults/compare/468620852f4e70abc62af5d2a728adb1425d1cec...vscode/v0.4.0) - 2026-02-09
 
 ### New Features
