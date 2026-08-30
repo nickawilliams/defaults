@@ -1,4 +1,25 @@
 # Changelog
+## [eslint/v0.4.0](https://github.com/nickawilliams/defaults/compare/4ed66da8544ba4573cc915f9b59468dd0680a8a5...eslint/v0.4.0) - 2026-08-30
+
+### New Features
+
+- **Eslint:** Adopt ESLint 10 - ([4ed66da](https://github.com/nickawilliams/defaults/commit/4ed66da8544ba4573cc915f9b59468dd0680a8a5))
+
+### Improvements
+
+- **Eslint**
+
+  - Drop the deprecated eol-last rule - ([b5dc673](https://github.com/nickawilliams/defaults/commit/b5dc673b7fdc6f7d7dc8bc30d7aadff37f0dd32a))
+  - Migrate from ts.config() to defineConfig - ([4a6e154](https://github.com/nickawilliams/defaults/commit/4a6e15456343d14a9c5c6d9659b5a46cc9fd3ce4))
+
+### Fixes
+
+- **Eslint**
+
+  - Make the CJS entry point reachable - ([7edb5d1](https://github.com/nickawilliams/defaults/commit/7edb5d1da0292dbc540fd8325a45cfe3a673666a))
+  - Remove tsconfigRootDir override from the shared config - ([b1532ad](https://github.com/nickawilliams/defaults/commit/b1532addfb39d00089293bb94c391f5d0f9c4065))
+  - Flatten the CJS default export to module.exports - ([a94b343](https://github.com/nickawilliams/defaults/commit/a94b343206c32a005c0bea2e437fba4d3e57e6f9))
+
 ## [eslint/v0.3.0](https://github.com/nickawilliams/defaults/compare/e8a8ec720abac4450bb25be8d60056a106bf839e...eslint/v0.3.0) - 2026-02-09
 
 ### New Features
