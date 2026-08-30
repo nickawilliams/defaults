@@ -64,6 +64,9 @@ jobs:
         # only covers installs.
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          # Fail fast with a clear error if the token itself is bad —
+          # npm masks permission failures on publish as 404s.
+          bunx npm whoami
           make publish/${{ steps.extract.outputs.package }}
       - name: Publish VS Code Extensions
         if: steps.extract.outputs.package == 'vscode'
