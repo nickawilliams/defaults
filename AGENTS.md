@@ -3,7 +3,7 @@
 Instructions for AI coding agents working on this project. Cross-repo
 conventions (naming, Make style, repository layout) live in
 [docs/conventions.md](docs/conventions.md); this file holds only what a
-session working *here* must inherit.
+session working _here_ must inherit.
 
 ## Entry Points
 
