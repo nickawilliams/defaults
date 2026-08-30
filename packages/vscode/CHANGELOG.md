@@ -1,4 +1,13 @@
 # Changelog
+## [vscode/v0.5.2](https://github.com/nickawilliams/defaults/compare/c1a8268b3d6c2cb4d6a07b0fce2986f9d31044dc...vscode/v0.5.2) - 2026-08-30
+
+### Fixes
+
+- **Vscode**
+
+  - Derive extension versions from the package version - ([c1a8268](https://github.com/nickawilliams/defaults/commit/c1a8268b3d6c2cb4d6a07b0fce2986f9d31044dc))
+  - Trust native postinstalls and drop the bun dependency - ([e81e4d0](https://github.com/nickawilliams/defaults/commit/e81e4d00475cf0d58371d71b1c1f05a484d8ef94))
+
 ## [vscode/v0.5.1](https://github.com/nickawilliams/defaults/compare/edc163d4226519361db5cc7e5b3f9f2bd82db6d4...vscode/v0.5.1) - 2026-08-30
 
 ### Fixes
