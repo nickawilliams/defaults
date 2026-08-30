@@ -38,7 +38,6 @@ export default ts.config(
       ],
       '@typescript-eslint/no-useless-constructor': 'error',
       '@typescript-eslint/return-await': 'error',
-      'eol-last': ['error', 'always'],
     },
   },
   {
