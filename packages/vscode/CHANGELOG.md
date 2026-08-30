@@ -1,4 +1,10 @@
 # Changelog
+## [vscode/v0.5.1](https://github.com/nickawilliams/defaults/compare/edc163d4226519361db5cc7e5b3f9f2bd82db6d4...vscode/v0.5.1) - 2026-08-30
+
+### Fixes
+
+- **Vscode:** Invoke vsce from the local dependency - ([edc163d](https://github.com/nickawilliams/defaults/commit/edc163d4226519361db5cc7e5b3f9f2bd82db6d4))
+
 ## [vscode/v0.5.0](https://github.com/nickawilliams/defaults/compare/a0c9d6a2d91f548457fc73b772c13bac26f88c92...vscode/v0.5.0) - 2026-08-30
 
 ### New Features
