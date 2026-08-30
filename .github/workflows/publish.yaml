@@ -60,7 +60,11 @@ jobs:
         if: steps.extract.outputs.package != 'vscode'
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: make publish/${{ steps.extract.outputs.package }}
+        # bun publish reads auth from .npmrc; the bunfig scope token
+        # only covers installs.
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          make publish/${{ steps.extract.outputs.package }}
       - name: Publish VS Code Extensions
         if: steps.extract.outputs.package == 'vscode'
         env:
