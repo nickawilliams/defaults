@@ -13,6 +13,11 @@ on:
 
 permissions:
   contents: read
+  # OIDC for npm trusted publishing: the workflow authenticates to the
+  # registry with a short-lived credential minted per run — no stored
+  # token. Each package registers this repo + workflow as its trusted
+  # publisher on npmjs.com.
+  id-token: write
 
 jobs:
   publish:
@@ -52,22 +57,20 @@ jobs:
           ref: ${{ steps.release.outputs.tag }}
       - name: Environment
         uses: oven-sh/setup-bun@v2
+      - name: Environment - Node
+        # Trusted publishing needs npm >= 11.5; bun publish does not
+        # support OIDC yet (oven-sh/bun#24855), so the publish itself
+        # runs through npm while everything else stays on Bun.
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: Dependencies
         run: make deps
       - name: Build
         run: make build/${{ steps.extract.outputs.package }}
       - name: Publish NPM
         if: steps.extract.outputs.package != 'vscode'
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        # bun publish reads auth from .npmrc; the bunfig scope token
-        # only covers installs.
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          # Fail fast with a clear error if the token itself is bad —
-          # npm masks permission failures on publish as 404s.
-          bunx npm whoami
-          make publish/${{ steps.extract.outputs.package }}
+        run: make publish/${{ steps.extract.outputs.package }}
       - name: Publish VS Code Extensions
         if: steps.extract.outputs.package == 'vscode'
         env:

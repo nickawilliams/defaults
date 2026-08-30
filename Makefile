@@ -323,14 +323,16 @@ release/github_actions:
 publish: $(addprefix publish/,$(NPM_PACKAGES)) publish/vscode
 
 ## Publish a specific NPM package
+# npm rather than bun: trusted publishing (OIDC) needs npm >= 11.5,
+# which bun publish does not support yet (oven-sh/bun#24855).
 publish/eslint publish/prettier publish/typescript:
 	@pkg=$(subst publish/,,$@); \
 	echo "Publishing $${pkg}..."; \
 	cd packages/$${pkg}; \
 	if [ "$(DRY_RUN)" = "1" ]; then \
-		bun publish --dry-run; \
+		npm publish --dry-run; \
 	else \
-		bun publish; \
+		npm publish; \
 	fi
 
 ## Publish all VS Code extensions (delegates to vscode Makefile)
