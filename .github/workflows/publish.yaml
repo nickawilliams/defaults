@@ -29,6 +29,9 @@ jobs:
       - name: Validate Release
         env:
           GH_TOKEN: ${{ github.token }}
+          # This step runs before checkout, so gh has no git remote to
+          # infer the repo from — point it explicitly.
+          GH_REPO: ${{ github.repository }}
         run: |
           tag="${{ steps.release.outputs.tag }}"
           if ! gh release view "${tag}" --json tagName >/dev/null 2>&1; then
