@@ -27,17 +27,17 @@ file rather than in advance.
 A dash is not a stylistic alternative to a slash. It is what you fall
 back to when the context has **no hierarchy to express**.
 
-| Context | Separator | Why |
-| --- | --- | --- |
-| Make targets | `/` | A command tree: verb → what it applies to |
-| S3 state keys | `/` | A real object path |
-| SSM parameter paths | `/` | A real hierarchical namespace |
-| npm package names | `-` | Flat namespace |
-| 1Password item titles | `-` | Flat namespace |
-| AWS resource names | `-` | Flat namespace — `Name` tags hold no path |
-| Tag values | `-` | Flat namespace |
+| Context               | Separator | Why                                       |
+| --------------------- | --------- | ----------------------------------------- |
+| Make targets          | `/`       | A command tree: verb → what it applies to |
+| S3 state keys         | `/`       | A real object path                        |
+| SSM parameter paths   | `/`       | A real hierarchical namespace             |
+| npm package names     | `-`       | Flat namespace                            |
+| 1Password item titles | `-`       | Flat namespace                            |
+| AWS resource names    | `-`       | Flat namespace — `Name` tags hold no path |
+| Tag values            | `-`       | Flat namespace                            |
 
-`common-mcp-vpc` is env + app + resource *flattened*, because an AWS
+`common-mcp-vpc` is env + app + resource _flattened_, because an AWS
 `Name` tag cannot hold a path. That makes
 `replace(name_prefix, "-", "/")` an inverse operation rather than a
 trick — it reconstitutes the hierarchy for a context that supports one.
@@ -52,12 +52,12 @@ case rather than deriving it.
 
 The same shape across every flat namespace:
 
-| Axis | Example |
-| --- | --- |
-| npm packages | `@nickawilliams/defaults-eslint` |
-| 1Password items | `mcp-bearer-graphiti`, `auth0-client-mcp-gc` |
-| Service accounts | `op-service-account-mcp-terraform` |
-| Owner tags | `terraform:mcp` |
+| Axis             | Example                                      |
+| ---------------- | -------------------------------------------- |
+| npm packages     | `@nickawilliams/defaults-eslint`             |
+| 1Password items  | `mcp-bearer-graphiti`, `auth0-client-mcp-gc` |
+| Service accounts | `op-service-account-mcp-terraform`           |
+| Owner tags       | `terraform:mcp`                              |
 
 1Password titles follow `<system>-<component>[-<instance>]`, kebab-case
 — slot one is the system whose authority the credential covers.
@@ -98,15 +98,15 @@ which a bare `[Makefile]` does not.
 Presets come from `@nickawilliams/defaults-typescript`, selected by
 runtime rather than by project type:
 
-| Preset | For |
-| --- | --- |
-| `base` | Any environment; strict baseline |
-| `node` | Node.js runtime; adds `@types/node` globals |
-| `bun` | Bun runtime |
-| `bun-direct` | Scripts run directly, no emit |
-| `bun-package` | Publishable packages, declaration emit |
-| `web` / `web-bundler` | Browser, bundler-driven |
-| `production` / `debug` | Overlays |
+| Preset                 | For                                         |
+| ---------------------- | ------------------------------------------- |
+| `base`                 | Any environment; strict baseline            |
+| `node`                 | Node.js runtime; adds `@types/node` globals |
+| `bun`                  | Bun runtime                                 |
+| `bun-direct`           | Scripts run directly, no emit               |
+| `bun-package`          | Publishable packages, declaration emit      |
+| `web` / `web-bundler`  | Browser, bundler-driven                     |
+| `production` / `debug` | Overlays                                    |
 
 `extends` is written as an explicit array when chaining, even though the
 presets self-chain:
@@ -127,12 +127,17 @@ a single tsconfig does not work.
 
 ```jsonc
 // tsconfig.json — solution file, owns no files
-{ "files": [], "references": [
+{
+  "files": [],
+  "references": [
     { "path": "./tsconfig.web.json" },
-    { "path": "./tsconfig.tools.json" }
-] }
+    { "path": "./tsconfig.tools.json" },
+  ],
+}
 
 // tsconfig.web.json   → web-bundler, include ["src"]
+
+
 // tsconfig.tools.json → bun-direct, include ["eslint.config.ts", "vite.config.ts"]
 ```
 
@@ -152,13 +157,10 @@ Reference implementation: `SuperAgent/console`.
 import config from '@nickawilliams/defaults-eslint'
 import type { Linter } from 'eslint'
 
-export default [
-  { ignores: ['**/dist'] },
-  ...config,
-] satisfies Linter.Config[]
+export default [{ ignores: ['**/dist'] }, ...config] satisfies Linter.Config[]
 ```
 
-Framework rules are appended *after* the spread — `SuperAgent/console`
+Framework rules are appended _after_ the spread — `SuperAgent/console`
 adds `eslint-plugin-react-hooks` and `eslint-plugin-react-refresh` this
 way.
 
