@@ -1,0 +1,15 @@
+/**
+ * Node Configuration
+ *
+ * Extends the base configuration for projects running on Node.js. TypeScript
+ * 6+ defaults "types" to [] instead of including every installed @types
+ * package, so Node globals must be requested explicitly.
+ */
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  }
+}

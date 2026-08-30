@@ -1,5 +1,6 @@
 dist
 node_modules
+var
 .out
 .vscode
 !.vscode/extensions.json

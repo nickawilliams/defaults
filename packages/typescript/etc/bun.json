@@ -1,7 +1,7 @@
 /**
  * Bun: Base Configuration
  *
- * The recommendede configuration for projects using Bun.
+ * The recommended configuration for projects using Bun.
  */
 {
   "$schema": "https://json.schemastore.org/tsconfig",
