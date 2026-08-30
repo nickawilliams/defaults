@@ -91,6 +91,13 @@ conventional_commits = true
 filter_unconventional = true
 require_conventional = true
 split_commits = false
+commit_preprocessors = [
+  { pattern = "\\(cli\\)", replace = "(CLI)" },
+  { pattern = "\\(ci\\)", replace = "(CI)" },
+  { pattern = "\\(cicd\\)", replace = "(CI/CD)" },
+  { pattern = "\\(ui\\)", replace = "(UI)" },
+  { pattern = "\\(vcs\\)", replace = "(VCS)" },
+]
 commit_parsers = [
   { message = "^feat", group = "New Features" },
   { message = "^refactor", group = "Improvements" },
@@ -98,10 +105,12 @@ commit_parsers = [
   { message = "^fix", group = "Fixes" },
   { message = "^docs", group = "Documentation" },
   { message = "^chore", group = "Miscellaneous" },
-  # `pr` is the type the enforce workflow stamps on PR titles, so it ends
-  # up as the squash/merge commit subject. The referenced issue and PR
-  # carry the changelog-worthy detail; the commit itself is plumbing.
-  { message = "^pr", skip = true },
+  # Plumbing types, skipped on purpose rather than left to fall through
+  # the parser list unmatched. `pr` is the type the enforce workflow
+  # stamps on PR titles, so it ends up as the squash/merge commit
+  # subject — the referenced issue and PR carry the changelog-worthy
+  # detail. `release` is the version-bump commit itself.
+  { message = "^(build|ci|pr|release|test)", skip = true },
 ]
 protect_breaking_commits = true
 filter_commits = true
