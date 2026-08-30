@@ -4,6 +4,10 @@ ROOT_INPUT := $(ROOT_DIR)/etc/template
 ROOT_BUILD := $(ROOT_DIR)/var/build
 ROOT_DIST := $(ROOT_DIR)/var/dist
 
+# bunx resolves the @vscode/vsce devDependency's binary regardless of
+# the recipe's working directory; a bare vsce is never on CI's PATH.
+VSCE ?= bunx vsce
+
 ## Clean up all generated files
 clean:
 	@ rm -rf \
@@ -41,7 +45,7 @@ dist:
 ## Create the distributable for a specific extension
 dist/%: build/%
 	@ cd "$(ROOT_BUILD)/$(subst *,,$*)" && \
-		vsce package && \
+		$(VSCE) package && \
 		mkdir -p "$(ROOT_DIST)" && \
 		mv *.vsix "$(ROOT_DIST)/"
 
@@ -56,9 +60,9 @@ publish:
 publish/%: dist/%
 	@ cd "$(ROOT_DIST)" && \
 		if [ "$*" = "_all" ]; then \
-			vsce publish --packagePath defaults-vscode-*.vsix; \
+			$(VSCE) publish --packagePath defaults-vscode-*.vsix; \
 		else \
-			vsce publish --packagePath defaults-vscode-$(subst *,,$*)-*.vsix; \
+			$(VSCE) publish --packagePath defaults-vscode-$(subst *,,$*)-*.vsix; \
 		fi
 
 .PHONY: clean validate validate/% build/% dist/% publish/% publish

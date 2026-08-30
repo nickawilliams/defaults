@@ -16,11 +16,14 @@
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@types/ejs": "^3.1.5",
+    "@vscode/vsce": "^3.9.2",
     "ajv-cli": "^5.0.0",
     "bun": "^1.2.8",
     "canvas": "^3.1.0",
     "ejs": "^3.1.10",
-    "sharp": "^0.33.5",
-    "vsce": "^2.15.0"
-  }
+    "sharp": "^0.33.5"
+  },
+  "trustedDependencies": [
+    "@vscode/vsce-sign"
+  ]
 }
