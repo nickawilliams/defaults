@@ -2,6 +2,12 @@
  * Base: Recommended Configuration
  *
  * Recommended options that work for any environment or tooling.
+ *
+ * Note for TypeScript 6+: "types" now defaults to [] instead of every
+ * installed @types package, so runtime globals must be listed explicitly.
+ * Extend a runtime preset that does this for you (node.json sets
+ * "types": ["node"], bun.json sets "types": ["bun"]) or set "types"
+ * yourself when extending base directly.
  */
 {
   "$schema": "https://json.schemastore.org/tsconfig",
