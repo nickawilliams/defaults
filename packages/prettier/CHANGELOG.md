@@ -1,4 +1,10 @@
 # Changelog
+## [prettier/v0.4.0](https://github.com/nickawilliams/defaults/compare/e4d641e41186474781b6bfa09188d8b5eb01bc9d...prettier/v0.4.0) - 2026-08-30
+
+### New Features
+
+- **Prettier:** Update bundled plugins - ([e4d641e](https://github.com/nickawilliams/defaults/commit/e4d641e41186474781b6bfa09188d8b5eb01bc9d))
+
 ## [prettier/v0.3.0](https://github.com/nickawilliams/defaults/compare/8ffcff2a93466bbf5fd28def1b1ae854b6324d69...prettier/v0.3.0) - 2026-02-09
 
 ### New Features
