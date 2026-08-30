@@ -101,6 +101,7 @@ runtime rather than by project type:
 | Preset | For |
 | --- | --- |
 | `base` | Any environment; strict baseline |
+| `node` | Node.js runtime; adds `@types/node` globals |
 | `bun` | Bun runtime |
 | `bun-direct` | Scripts run directly, no emit |
 | `bun-package` | Publishable packages, declaration emit |
