@@ -18,14 +18,14 @@
     ]
   },
   "extensions": [
-    "rogwilco.defaults-vscode-general",
-    "rogwilco.defaults-vscode-golang",
-    "rogwilco.defaults-vscode-markdown",
-    "rogwilco.defaults-vscode-others",
-    "rogwilco.defaults-vscode-python",
-    "rogwilco.defaults-vscode-shell",
-    "rogwilco.defaults-vscode-themes",
-    "rogwilco.defaults-vscode-typescript",
-    "rogwilco.defaults-vscode-web"
+    "nickawilliams.defaults-vscode-general",
+    "nickawilliams.defaults-vscode-golang",
+    "nickawilliams.defaults-vscode-markdown",
+    "nickawilliams.defaults-vscode-others",
+    "nickawilliams.defaults-vscode-python",
+    "nickawilliams.defaults-vscode-shell",
+    "nickawilliams.defaults-vscode-themes",
+    "nickawilliams.defaults-vscode-typescript",
+    "nickawilliams.defaults-vscode-web"
   ]
 }

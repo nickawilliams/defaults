@@ -12,10 +12,14 @@
 <% if (package.keywords) { -%>
   "keywords": <%= JSON.stringify(package.keywords, null, 4) %>,
 <% } -%>
-  "repository": "github:rogwilco/defaults/packages/vscode",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickawilliams/defaults.git",
+    "directory": "packages/vscode"
+  },
   "license": "BSD-2-Clause",
   "author": "Nick Williams <git@nickawilliams.com>",
-  "publisher": "rogwilco",
+  "publisher": "nickawilliams",
   "extensionPack": <%= JSON.stringify(extensions, null, 4) %>,
   "engines": {
     "vscode": "^1.80.0"

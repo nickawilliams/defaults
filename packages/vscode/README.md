@@ -8,16 +8,16 @@ This package provides a set of extension packs for Visual Studio Code that inclu
 
 ## Available Extension Packs
 
-- **rogwilco.defaults-vscode** - Complete collection of all recommended extensions
-- **rogwilco.defaults-vscode-general** - Essential extensions for general development
-- **rogwilco.defaults-vscode-golang** - Recommended extensions for Go development
-- **rogwilco.defaults-vscode-markdown** - Markdown editing extensions, optimized for GitHub-flavored markdown
-- **rogwilco.defaults-vscode-others** - Extensions for miscellaneous languages and tools
-- **rogwilco.defaults-vscode-python** - Python development toolkit
-- **rogwilco.defaults-vscode-shell** - Shell scripting extensions for various systems
-- **rogwilco.defaults-vscode-themes** - Collection of VS Code themes and related resources
-- **rogwilco.defaults-vscode-typescript** - TypeScript and JavaScript development extensions
-- **rogwilco.defaults-vscode-web** - Web development extensions
+- **nickawilliams.defaults-vscode** - Complete collection of all recommended extensions
+- **nickawilliams.defaults-vscode-general** - Essential extensions for general development
+- **nickawilliams.defaults-vscode-golang** - Recommended extensions for Go development
+- **nickawilliams.defaults-vscode-markdown** - Markdown editing extensions, optimized for GitHub-flavored markdown
+- **nickawilliams.defaults-vscode-others** - Extensions for miscellaneous languages and tools
+- **nickawilliams.defaults-vscode-python** - Python development toolkit
+- **nickawilliams.defaults-vscode-shell** - Shell scripting extensions for various systems
+- **nickawilliams.defaults-vscode-themes** - Collection of VS Code themes and related resources
+- **nickawilliams.defaults-vscode-typescript** - TypeScript and JavaScript development extensions
+- **nickawilliams.defaults-vscode-web** - Web development extensions
 
 ## Usage
 
@@ -31,8 +31,8 @@ A great use case for these extension packs is pairing them with VS Code workspac
 ```json
 {
   "recommendations": [
-    "rogwilco.defaults-vscode-typescript",
-    "rogwilco.defaults-vscode-web"
+    "nickawilliams.defaults-vscode-typescript",
+    "nickawilliams.defaults-vscode-web"
   ]
 }
 ```
@@ -45,7 +45,7 @@ You can also install these extension packs directly from the VS Code Marketplace
 
 1. Open VS Code
 2. Go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`)
-3. Search for the desired extension pack (e.g., `rogwilco.defaults-vscode-typescript`)
+3. Search for the desired extension pack (e.g., `nickawilliams.defaults-vscode-typescript`)
 4. Click "Install"
 
 ## Development
