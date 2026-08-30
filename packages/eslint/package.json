@@ -7,7 +7,11 @@
     "eslint",
     "defaults"
   ],
-  "repository": "github:nickawilliams/defaults/packages/eslint",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickawilliams/defaults.git",
+    "directory": "packages/eslint"
+  },
   "license": "BSD-2-Clause",
   "author": "Nick Williams <git@nickawilliams.com>",
   "type": "module",
