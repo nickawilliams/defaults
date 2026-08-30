@@ -10,6 +10,12 @@ env:
 permissions:
   contents: write
 
+# Serialize release runs so rapid pushes to main can't race on tag
+# creation or the release commit push.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   verify:
     if: ${{ !startsWith(github.event.head_commit.message, 'release:') }}
