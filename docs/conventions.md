@@ -168,6 +168,15 @@ way.
 as real dependencies. A consumer should not redeclare them unless its
 own config file imports them directly.
 
+### Organize-imports needs a JS-based TypeScript
+
+`prettier-plugin-organize-imports` (bundled by `defaults-prettier`) uses
+the TypeScript programmatic API, which the native compiler (tsgo) does
+not expose until TypeScript 7.1. A consumer running tsgo needs a
+JS-based TypeScript ≤ 6.0 installed for formatting — Microsoft's
+`@typescript/typescript6` alias pattern works. Revisit once the plugin
+adopts the TS 7.1 API.
+
 ## Bun and workspaces
 
 ### `bunfig.toml`
