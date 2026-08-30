@@ -10,15 +10,25 @@ env:
 permissions:
   contents: write
 
-# Serialize release runs so rapid pushes to main can't race on tag
-# creation or the release commit push.
-concurrency:
-  group: release
-  cancel-in-progress: false
-
 jobs:
-  verify:
+  # Debounce: hold the release open for a quiet window so a burst of
+  # merges coalesces. Each new push to main cancels the previous run's
+  # timer (cancel-in-progress on the shared group) and starts its own,
+  # so releases are cut only once main has been quiet for the full
+  # window. A surviving run's triggering SHA is therefore the tip of
+  # main — any newer push would have cancelled it.
+  debounce:
     if: ${{ !startsWith(github.event.head_commit.message, 'release:') }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: release-debounce
+      cancel-in-progress: true
+    steps:
+      - name: Wait for quiet window
+        run: sleep 300 # Per-project knob: debounce window (seconds)
+
+  verify:
+    needs: debounce
     uses: ./.github/workflows/verify.yaml
 
   generate:
@@ -58,6 +68,11 @@ jobs:
     needs: generate
     if: needs.generate.outputs.has_releases == 'true'
     runs-on: ubuntu-latest
+    # Never cancel a release that is already being cut; a push landing
+    # in the narrow window after a debounce expires waits here instead.
+    concurrency:
+      group: release-cut
+      cancel-in-progress: false
     outputs:
       release_tags: ${{ needs.generate.outputs.release_tags }}
       release_json: ${{ needs.generate.outputs.release_json }}
