@@ -1,4 +1,10 @@
 # Changelog
+## [eslint/v0.4.1](https://github.com/nickawilliams/defaults/compare/8c7af69297cf018989d5fa27ca869ad4d1f8da9c...eslint/v0.4.1) - 2026-08-30
+
+### Fixes
+
+- **Eslint:** Use the directory form for repository metadata - ([8c7af69](https://github.com/nickawilliams/defaults/commit/8c7af69297cf018989d5fa27ca869ad4d1f8da9c))
+
 ## [eslint/v0.4.0](https://github.com/nickawilliams/defaults/compare/4ed66da8544ba4573cc915f9b59468dd0680a8a5...eslint/v0.4.0) - 2026-08-30
 
 ### New Features
