@@ -3,6 +3,10 @@
  *
  * Extends the base Bun configuration to support building of publishable NPM
  * packages.
+ *
+ * Note for TypeScript 6+: declaration emit requires an explicit rootDir
+ * (error TS5011) — set "rootDir" to your source root (typically "./src")
+ * in the consuming project.
  */
 {
   "$schema": "https://json.schemastore.org/tsconfig",
