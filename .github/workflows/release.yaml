@@ -18,7 +18,10 @@ jobs:
   # window. A surviving run's triggering SHA is therefore the tip of
   # main — any newer push would have cancelled it.
   debounce:
-    if: ${{ !startsWith(github.event.head_commit.message, 'release:') }}
+    # Skip release commits. Load-bearing with BOT_TOKEN: unlike
+    # GITHUB_TOKEN, its pushes trigger workflows, so the release
+    # commit push would otherwise start another run.
+    if: ${{ !startsWith(github.event.head_commit.message, 'release(') && !startsWith(github.event.head_commit.message, 'release:') }}
     runs-on: ubuntu-latest
     concurrency:
       group: release-debounce
@@ -74,6 +77,7 @@ jobs:
       group: release-cut
       cancel-in-progress: false
     outputs:
+      pushed: ${{ steps.push.outputs.pushed }}
       release_tags: ${{ needs.generate.outputs.release_tags }}
       release_json: ${{ needs.generate.outputs.release_json }}
     steps:
@@ -82,6 +86,9 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+          # BOT_TOKEN (admin PAT): bypasses the required status checks
+          # on main, which reject pushes from GITHUB_TOKEN.
+          token: ${{ secrets.BOT_TOKEN }}
       - name: Environment
         uses: oven-sh/setup-bun@v2
       - name: Install git-cliff
@@ -115,10 +122,35 @@ jobs:
       - name: Release
         run: make release
       - name: Push
-        run: git push origin HEAD:main --tags
+        id: push
+        env:
+          RELEASE_TAGS: ${{ needs.generate.outputs.release_tags }}
+        run: |
+          set -euo pipefail
+          # Freshness check: if main moved during verify/generate, this
+          # run's release commit is parented on a stale base. Abort
+          # cleanly — the push that moved main has already triggered
+          # the run that will release everything from the new tip.
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::main moved during the release run; deferring to the successor run"
+            exit 0
+          fi
+          # Atomic: the release commit and this run's tags land
+          # together or not at all — a rejected branch push must never
+          # leave tags behind.
+          refspecs=""
+          for t in ${RELEASE_TAGS}; do
+            refspecs="${refspecs} refs/tags/${t}:refs/tags/${t}"
+          done
+          # shellcheck disable=SC2086
+          git push --atomic origin HEAD:main ${refspecs}
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
 
   github-release:
     needs: tag
+    if: needs.tag.outputs.pushed == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -155,7 +187,10 @@ jobs:
           } >> "$GITHUB_OUTPUT"
       - name: Create GitHub Release
         env:
-          GH_TOKEN: ${{ github.token }}
+          # BOT_TOKEN so the published release emits a release event
+          # and triggers publish.yaml; GITHUB_TOKEN-created releases
+          # do not (anti-loop protection).
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
         run: |
           gh release create "${{ matrix.tag }}" \
             --title "${{ matrix.tag }}" \
