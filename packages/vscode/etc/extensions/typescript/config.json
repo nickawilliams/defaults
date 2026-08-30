@@ -1,7 +1,6 @@
 {
   "package": {
     "name": "defaults-vscode-typescript",
-    "version": "0.1.0",
     "displayName": "Defaults: TypeScript",
     "description": "Recommended extensions for TypeScript (and JavaScript) development.",
     "categories": [

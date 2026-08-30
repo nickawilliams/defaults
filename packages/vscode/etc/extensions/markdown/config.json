@@ -2,7 +2,6 @@
   "$schema": "../../config.schema.json",
   "package": {
     "name": "defaults-vscode-markdown",
-    "version": "0.1.0",
     "displayName": "Defaults: Markdown",
     "description": "Recommended extensions for Markdown editing, especially for markdown that will be rendered by GitHub.",
     "categories": [

@@ -2,7 +2,6 @@
   "$schema": "../../config.schema.json",
   "package": {
     "name": "defaults-vscode-general",
-    "version": "0.1.0",
     "displayName": "Defaults: General",
     "description": "Recommended extensions for general development.",
     "categories": [

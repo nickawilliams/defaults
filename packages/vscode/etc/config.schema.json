@@ -12,7 +12,6 @@
       "description": "Package configuration",
       "required": [
         "name",
-        "version",
         "displayName"
       ],
       "properties": {
@@ -20,11 +19,6 @@
           "type": "string",
           "description": "Package name",
           "pattern": "^[a-z0-9]+"
-        },
-        "version": {
-          "type": "string",
-          "description": "Package version in semver format",
-          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
         },
         "categories": {
           "type": "array",

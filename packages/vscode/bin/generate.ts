@@ -36,6 +36,15 @@ try {
   process.exit(1)
 }
 
+// Extension versions track the vscode package version, which the
+// release pipeline bumps — configs do not carry their own.
+const packageVersion = (
+  JSON.parse(
+    fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'),
+  ) as { version: string }
+).version
+;(data['package'] as Record<string, unknown>)['version'] = packageVersion
+
 fs.mkdirSync(outputDir, { recursive: true })
 
 // Function to process all files in a directory recursively

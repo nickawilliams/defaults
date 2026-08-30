@@ -2,7 +2,6 @@
   "$schema": "../../config.schema.json",
   "package": {
     "name": "defaults-vscode-web",
-    "version": "0.1.0",
     "displayName": "Defaults: Web",
     "description": "Recommended extensions for web development.",
     "categories": [

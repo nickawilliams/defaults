@@ -2,7 +2,6 @@
   "$schema": "../../config.schema.json",
   "package": {
     "name": "defaults-vscode-python",
-    "version": "0.1.0",
     "displayName": "Defaults: Python",
     "description": "Recommended extensions for Python development.",
     "categories": [

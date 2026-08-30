@@ -2,7 +2,6 @@
   "$schema": "../../config.schema.json",
   "package": {
     "name": "defaults-vscode-others",
-    "version": "0.1.0",
     "displayName": "Defaults: Others",
     "description": "Recommended extensions for other languages.",
     "categories": [

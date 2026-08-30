@@ -2,7 +2,6 @@
   "$schema": "../../config.schema.json",
   "package": {
     "name": "defaults-vscode-shell",
-    "version": "0.1.0",
     "displayName": "Defaults: Shell",
     "description": "Recommended extensions for shell scripting in various systems.",
     "categories": [

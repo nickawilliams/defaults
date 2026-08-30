@@ -1,7 +1,6 @@
 {
   "package": {
     "name": "defaults-vscode",
-    "version": "0.1.0",
     "displayName": "Defaults: All The Things",
     "description": "Collect them all",
     "categories": [
