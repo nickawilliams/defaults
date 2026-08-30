@@ -1,0 +1,89 @@
+name: Enforce
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  pr-conventions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce PR conventions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          EVENT_ACTION: ${{ github.event.action }}
+        run: |
+          set -euo pipefail
+
+          # --- Issue number (from branch <issue>-<slug>) ---
+          issue=""
+          if [[ "${BRANCH}" =~ ^([0-9]+)- ]]; then
+            issue="${BASH_REMATCH[1]}"
+          fi
+
+          # --- Title prefix (issue in scope; scope-less fallback) ---
+          # The scope carries the linked issue so the merge commit reads
+          # pr(#<issue>): <subject> (#<pr>) — GitHub appends the PR ref,
+          # so both ends of the chain are greppable from git log. Issues
+          # and PRs share one ID namespace, so a misread ref still
+          # resolves to the right artifact. Non-issue branches drop the
+          # scope entirely (pr: <subject>) — the PR number GitHub
+          # appends is the only meaningful ref, and a bare pr: type
+          # still parses as conventional for git-cliff.
+          # Strip any existing pr prefix (scoped or not) so edits stay
+          # idempotent and pre-convention titles migrate on their next
+          # edit event.
+          subject="${PR_TITLE}"
+          refs=""
+          re='^pr(\((#[0-9]+(,[[:space:]]?#[0-9]+)*)\))?:[[:space:]]*(.*)$'
+          if [[ "${PR_TITLE}" =~ ${re} ]]; then
+            refs="${BASH_REMATCH[2]//[[:space:]]/}"
+            subject="${BASH_REMATCH[4]}"
+          fi
+          if [[ -n "${issue}" && ",${refs}," == *",#${issue},"* ]]; then
+            # Existing prefix already references the branch issue — keep
+            # it verbatim; it may carry hand-added extra issue refs.
+            new_title="${PR_TITLE}"
+          elif [[ -n "${issue}" ]]; then
+            new_title="pr(#${issue}): ${subject}"
+          else
+            new_title="pr: ${subject}"
+          fi
+          if [[ "${PR_TITLE}" == "${new_title}" ]]; then
+            echo "Title already has prefix: ${PR_TITLE}"
+          else
+            echo "Setting title: ${new_title}"
+            gh pr edit "${PR_NUMBER}" --repo "${{ github.repository }}" --title "${new_title}"
+          fi
+
+          # --- Closing reference (uses issue number from branch) ---
+          if [[ -z "${issue}" ]]; then
+            echo "Branch '${BRANCH}' does not follow <issue>-<slug> convention; skipping body injection"
+            exit 0
+          fi
+
+          if [[ "${EVENT_ACTION}" != "opened" ]]; then
+            exit 0
+          fi
+
+          if echo "${PR_BODY}" | grep -qiE "(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\s+#${issue}\b"; then
+            echo "Body already references #${issue} with a closing keyword"
+            exit 0
+          fi
+
+          closing="Closes #${issue}"
+          if [[ -z "${PR_BODY}" ]]; then
+            new_body="${closing}"
+          else
+            new_body="$(printf '%s\n\n%s' "${PR_BODY}" "${closing}")"
+          fi
+
+          echo "Appending closing reference: ${closing}"
+          gh pr edit "${PR_NUMBER}" --repo "${{ github.repository }}" --body "${new_body}"
